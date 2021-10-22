@@ -1,5 +1,3 @@
-package Oving9;
-
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 class Klient{
