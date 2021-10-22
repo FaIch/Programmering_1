@@ -1,5 +1,3 @@
-package oving8;
-
 public class Person{
     private final String firstName;
     private final String lastName;
