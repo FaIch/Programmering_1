@@ -1,4 +1,3 @@
-package oving8;
 import java.util.*;
 class Klient{
     private static Scanner in = new Scanner(System.in);
