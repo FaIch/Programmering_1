@@ -2,7 +2,7 @@ package Oving9.arraylist;
 import Oving9.Student;
 import java.util.ArrayList;
 
-public class ViewTasksList {
+public class ViewTasks {
     private ArrayList<Student> students;
     private int numberOfStudents = 0;
 
