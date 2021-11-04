@@ -1,67 +1,84 @@
-import java.util.Locale;
+package Oving9.arraylist;
+import Oving9.Student;
+import java.util.ArrayList;
 
-public class ViewTasks {
-    private Student[] students;
+public class ViewTasksList {
+    private ArrayList<Student> students;
     private int numberOfStudents = 0;
 
-    public ViewTasks(){
-        students = new Student[1];
+    public ViewTasksList(){
+        students = new ArrayList<Student>();
     }
 
-    public int getNrOfStudents() {
+    public int getNumberOfStudents() {
         return numberOfStudents;
     }
 
-    public int getTasks(String name){
-        String studentName = name.toLowerCase(Locale.ROOT);
+    public int getNumberOfTasks(String name){
+        String studentName = name.toLowerCase();
         int tasks = 0;
-        for (int i = 0; i < numberOfStudents; i++){
-            if (studentName.equals(students[i].getName())){
-                tasks = students[i].getNrOfTasks();
+        if (nameTest(name)) {
+            for (int i = 0; i < numberOfStudents; i++) {
+                if (students.get(i).getName().equals(studentName)) {
+                    tasks = students.get(i).getNrOfTasks();
+                }
             }
+        }
+        else{
+            System.out.println("Navnet eksisterer ikke i biblioteket. Tast 1 for å se studenter i biblioteket.");
         }
         return tasks;
     }
 
-    public String newStudent(String name, int nrOfTasks){
-        String studentName = name.toLowerCase(Locale.ROOT);
-        if (!nameTest(studentName)){
-            enlargeArray();
-            students[numberOfStudents] = new Student(studentName,nrOfTasks);
-            numberOfStudents ++;
-            return "Registration completed";
-        }
-        return "Registration failed, name is already registered";
-    }
-
     public void increaseTasks(String name, int number){
-        String studentName = name.toLowerCase(Locale.ROOT);
-        for (int i = 0; i < numberOfStudents; i++){
-            if (students[i].getName().equals(studentName)){
-                students[i].increaseNrOfTasks(number);
+        String studentName = name.toLowerCase();
+        if (nameTest(name)) {
+            for (int i = 0; i < getNumberOfStudents(); i++) {
+                if (students.get(i).getName().equals(studentName)) {
+                    students.get(i).increaseNrOfTasks(number);
+                }
             }
         }
+        else{
+            System.out.println("Navnet eksisterer ikke i biblioteket. Tast 1 for å se studenter i biblioteket. ");
+        }
     }
 
-    public void enlargeArray(){
-        Student[] temporaryArray = new Student[numberOfStudents +1];
-
-        for (int i = 0; i < numberOfStudents; i++){
-            temporaryArray[i] = students[i];
+    public void newStudent(String name, int numTasks){
+        if (!nameTest(name)){
+            Student newStudent = new Student(name,numTasks);
+            students.add(newStudent);
         }
-        students = temporaryArray;
+        else{
+            System.out.println("Navn er i bruk, vennligst bruk et annet navn.");
+        }
+        numberOfStudents ++;
     }
 
     public boolean nameTest(String name){
-        for (int i = 0; i < numberOfStudents; i ++){
-            if (name.equals(students[i].getName())) {
-                return true;
+        String studentName = name.toLowerCase();
+        boolean nameExists = false;
+
+        for (int i = 0; i < getNumberOfStudents(); i++){
+            if (students.get(i).getName().equals(studentName)){
+                nameExists = true;
             }
         }
-        return false;
+        return nameExists;
     }
 
+    @Override
     public String toString() {
-        return "There are " + numberOfStudents + " students in this library";
+        String text = "";
+        if (numberOfStudents == 0){
+            return "Det er ingen studenter registrert i biblioteket enda. Tast 2 for å registrere ny student";
+        }
+        else {
+            for (int i = 0; i < numberOfStudents; i++) {
+                text += students.get(i).getName();
+                text += " har gjort " + students.get(i).getNrOfTasks() + " oppgaver. \n";
+            }
+        }
+        return text;
     }
 }
