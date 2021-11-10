@@ -1,0 +1,167 @@
+package Oving11;
+
+import java.util.ArrayList;
+
+public class PropertyRegister { //Creates object properties
+    ArrayList<Property> properties;
+
+    /**
+     * Constructor, creates the arraylist properties
+     */
+    public PropertyRegister(){
+        properties = new ArrayList<Property>(); // Sets properties as an Arraylist og the object Property
+    }
+
+    /**
+     * Gets number of properties by measuring the size of the arraylist
+     * @return number of properties
+     */
+    public int getNumberOfProperties(){
+        return properties.size();
+    }
+
+    /**
+     * Creates a new object of Property, and adds it in the properties ArrayList
+     * Calls tryValue method to ensure correct input from user
+     */
+    public void newProperty(int municipalityNumber, String municipalityName, int lotNumber, int sectionNumber, String lotName, double area, String nameOfOwner){
+        tryValues4(municipalityNumber, lotNumber, sectionNumber, area);
+        Property property = new Property(municipalityNumber, municipalityName, lotNumber, sectionNumber, lotName, area, nameOfOwner);
+        properties.add(property);
+    }
+
+    /**
+     * Calls tryValue method to ensure correct input in the parameters.
+     * Creates a new object og Property, iterates through the ArrayList, and checks if the property number given in the parameters matches
+     * any existing objects. If so, it removes the object from the list.
+     */
+    public boolean deleteProperty(int municipalityNumber, int lotNumber, int sectionNumber) {
+        tryValues3(municipalityNumber, lotNumber, sectionNumber);
+        boolean returnValue = true;
+        String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
+        for (int i = 0; i < getNumberOfProperties(); i++) {
+            if (properties.get(i).getPropertyNumber().equals(propertyNumber)) {
+                properties.remove(properties.get(i));
+                returnValue = false;
+            }
+        }
+        return returnValue;
+    }
+
+    /**
+     * Creates a new Arraylist of the object Property, creates a string of the parameters given in the method to match
+     * the method in "Property" class. Iterates through properties to see if the numbers on each element in properties
+     * matches with the numbers in the parameters. If so, it adds the element to the returnProperties Arraylist.
+     * @return This method returns an Arraylist of objects that match with the numbers given in the parameters.
+     */
+    public ArrayList<Property> getPropertyByNumbers(int municipalityNumber, int lotNumber, int sectionNumber){
+        tryValues3(municipalityNumber, lotNumber, sectionNumber);
+        ArrayList<Property> returnProperties = new ArrayList<Property>();
+        String numbers = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
+        for (int i = 0; i < getNumberOfProperties(); i++){
+            if (properties.get(i).getPropertyNumber().equalsIgnoreCase(numbers)){
+                returnProperties.add(properties.get(i));
+            }
+        }
+        return returnProperties;
+    }
+
+    /**
+     * Calculates the average area of the objects in the Arraylist properties.
+     * @return returns the area of all objects, divided by number of objects in the list.
+     */
+    public String getAverageArea(){
+        float area = 0;
+        for (int i = 0; i < getNumberOfProperties(); i++){
+            area += properties.get(i).getArea();
+        }
+        area /= getNumberOfProperties();
+        return "Average area(m2)" + area;
+    }
+
+    /**
+     * Adds all objects of properties that have matching lotNumber with the given lotNumber in the parameter.
+     * @return Returns a list of properties that have the given lotNumber as in the parameter.
+     */
+    public ArrayList<Property> getPropertiesByLotNumber(int lotNumber){
+        if (lotNumber < 0){
+            throw new IllegalArgumentException("Only positive numbers");
+        }
+        ArrayList<Property> returnProperties = new ArrayList<Property>();
+        for (int i = 0; i < getNumberOfProperties(); i++){
+            if (properties.get(i).getLotNumber() == lotNumber){
+                returnProperties.add(properties.get(i));
+            }
+        }
+        return returnProperties;
+    }
+
+    /**
+     * Method for IllegalArgumentException, checks that the values are positive, if not, it throws a new IllegalArgumentException
+     */
+    public void tryValues3(int value1, int value2, int value3){
+        if (value1 < 0 || value2 < 0 || value3 < 0){
+            throw new IllegalArgumentException("Only positive numbers");
+        }
+    }
+
+    /**
+     * Does the same as the method above
+     * @param value4 since some methods required only 3 parameters, while others required 4, the program has a method
+     *               for each to ensure correct inputs.
+     */
+    public void tryValues4(int value1, int value2, int value3, double value4){
+        if (value1 < 0 || value2 < 0 || value3 < 0 || value4 < 0){
+            throw new IllegalArgumentException("Only positive numbers");
+        }
+    }
+
+    /**
+     * Method for changing the name of the lot. Finds the property using property number, and then changes the name.
+     */
+    public boolean setLotName(int municipalityNumber, int lotNumber, int sectionNumber, String newLotName){
+        String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
+        boolean returnValue = true;
+        tryValues3(municipalityNumber,lotNumber,sectionNumber);
+        for (int i = 0; i < getNumberOfProperties(); i++){
+            if (properties.get(i).getPropertyNumber().equals(propertyNumber)){
+                properties.get(i).setLotName(newLotName);
+                returnValue = false;
+            }
+        }
+        return returnValue;
+    }
+
+    /**
+     * Method for changing the area of the lot. Works the same as the method for setting name, however this method uses 4
+     * number parameters, so it calls tryValues4 instead of tryValues3.
+     */
+    public boolean setLotArea(int municipalityNumber, int lotNumber, int sectionNumber, double newArea){
+        String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
+        boolean returnValue = true;
+        tryValues4(municipalityNumber,lotNumber,sectionNumber, newArea);
+        for (int i = 0; i < getNumberOfProperties(); i++){
+            if (properties.get(i).getPropertyNumber().equals(propertyNumber)){
+                properties.get(i).setArea(newArea);
+                returnValue = false;
+            }
+        }
+        return  returnValue;
+    }
+
+    /**
+     * Method for changing name of owner. Works the same as the other set methods.
+     */
+    public boolean setOwner(int municipalityNumber, int lotNumber, int sectionNumber, String newOwner){
+        String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
+        boolean returnValue = true;
+        tryValues3(municipalityNumber,lotNumber,sectionNumber);
+        for (int i = 0; i < getNumberOfProperties(); i++){
+            if (properties.get(i).getPropertyNumber().equals(propertyNumber)){
+                properties.get(i).setNameOfOwner(newOwner);
+                returnValue = false;
+            }
+        }
+        return returnValue;
+    }
+}
