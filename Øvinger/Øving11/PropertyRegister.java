@@ -31,21 +31,32 @@ public class PropertyRegister { //Creates object properties
     }
 
     /**
+     * Creates a deep copy of each object in the properties ArrayList and adds each object to a new list
+     * @return return returnList which holds deep copies of all objects in the property list.
+     */
+    public ArrayList<Property> getProperties(){
+        ArrayList<Property> returnList = new ArrayList<Property>();
+        for (Property property : properties){
+            returnList.add(new Property(property.getMunicipalityNumber(), property.getMunicipalityName(), property.getLotNumber(), property.getSectionNumber(), property.getLotName(), property.getArea(), property.getNameOfOwner()));
+        }
+        return returnList;
+    }
+
+    /**
      * Calls tryValue method to ensure correct input in the parameters.
      * Creates a new object og Property, iterates through the ArrayList, and checks if the property number given in the parameters matches
      * any existing objects. If so, it removes the object from the list.
      */
     public boolean deleteProperty(int municipalityNumber, int lotNumber, int sectionNumber) {
         tryValues3(municipalityNumber, lotNumber, sectionNumber);
-        boolean returnValue = true;
         String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
-        for (int i = 0; i < getNumberOfProperties(); i++) {
-            if (properties.get(i).getPropertyNumber().equals(propertyNumber)) {
-                properties.remove(properties.get(i));
-                returnValue = false;
+        for (Property property : properties) {
+            if (property.getPropertyNumber().equals(propertyNumber)) {
+                properties.remove(property);
+                return false;
             }
         }
-        return returnValue;
+        return true;
     }
 
     /**
@@ -58,9 +69,10 @@ public class PropertyRegister { //Creates object properties
         tryValues3(municipalityNumber, lotNumber, sectionNumber);
         ArrayList<Property> returnProperties = new ArrayList<Property>();
         String numbers = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
-        for (int i = 0; i < getNumberOfProperties(); i++){
-            if (properties.get(i).getPropertyNumber().equalsIgnoreCase(numbers)){
-                returnProperties.add(properties.get(i));
+        for (Property property : properties){
+            if (property.getPropertyNumber().equalsIgnoreCase(numbers)){
+                Property newProperty = new Property(property.getMunicipalityNumber(),property.getMunicipalityName(), property.getLotNumber(), property.getSectionNumber(), property.getLotName(), property.getArea(), property.getNameOfOwner());
+                returnProperties.add(newProperty);
             }
         }
         return returnProperties;
@@ -71,9 +83,9 @@ public class PropertyRegister { //Creates object properties
      * @return returns the area of all objects, divided by number of objects in the list.
      */
     public String getAverageArea(){
-        float area = 0;
-        for (int i = 0; i < getNumberOfProperties(); i++){
-            area += properties.get(i).getArea();
+        double area = 0;
+        for (Property property : properties){
+            area += property.getArea();
         }
         area /= getNumberOfProperties();
         return "Average area(m2)" + area;
@@ -88,9 +100,9 @@ public class PropertyRegister { //Creates object properties
             throw new IllegalArgumentException("Only positive numbers");
         }
         ArrayList<Property> returnProperties = new ArrayList<Property>();
-        for (int i = 0; i < getNumberOfProperties(); i++){
-            if (properties.get(i).getLotNumber() == lotNumber){
-                returnProperties.add(properties.get(i));
+        for (Property property : properties){
+            if (property.getLotNumber() == lotNumber){
+                returnProperties.add(new Property(property.getMunicipalityNumber(), property. getMunicipalityName(), property.getLotNumber(), property.getSectionNumber(), property.getLotName(), property.getArea(), property.getNameOfOwner()));
             }
         }
         return returnProperties;
@@ -121,15 +133,14 @@ public class PropertyRegister { //Creates object properties
      */
     public boolean setLotName(int municipalityNumber, int lotNumber, int sectionNumber, String newLotName){
         String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
-        boolean returnValue = true;
         tryValues3(municipalityNumber,lotNumber,sectionNumber);
-        for (int i = 0; i < getNumberOfProperties(); i++){
-            if (properties.get(i).getPropertyNumber().equals(propertyNumber)){
-                properties.get(i).setLotName(newLotName);
-                returnValue = false;
+        for (Property property : properties){
+            if (property.getPropertyNumber().equals(propertyNumber)){
+                property.setLotName(newLotName);
+                return false;
             }
         }
-        return returnValue;
+        return true;
     }
 
     /**
@@ -138,15 +149,14 @@ public class PropertyRegister { //Creates object properties
      */
     public boolean setLotArea(int municipalityNumber, int lotNumber, int sectionNumber, double newArea){
         String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
-        boolean returnValue = true;
         tryValues4(municipalityNumber,lotNumber,sectionNumber, newArea);
-        for (int i = 0; i < getNumberOfProperties(); i++){
-            if (properties.get(i).getPropertyNumber().equals(propertyNumber)){
-                properties.get(i).setArea(newArea);
-                returnValue = false;
+        for (Property property : properties){
+            if (property.getPropertyNumber().equals(propertyNumber)){
+                property.setArea(newArea);
+                return false;
             }
         }
-        return  returnValue;
+        return true;
     }
 
     /**
@@ -154,14 +164,13 @@ public class PropertyRegister { //Creates object properties
      */
     public boolean setOwner(int municipalityNumber, int lotNumber, int sectionNumber, String newOwner){
         String propertyNumber = municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
-        boolean returnValue = true;
         tryValues3(municipalityNumber,lotNumber,sectionNumber);
-        for (int i = 0; i < getNumberOfProperties(); i++){
-            if (properties.get(i).getPropertyNumber().equals(propertyNumber)){
-                properties.get(i).setNameOfOwner(newOwner);
-                returnValue = false;
+        for (Property property : properties){
+            if (property.getPropertyNumber().equals(propertyNumber)){
+                property.setNameOfOwner(newOwner);
+                return false;
             }
         }
-        return returnValue;
+        return true;
     }
 }
