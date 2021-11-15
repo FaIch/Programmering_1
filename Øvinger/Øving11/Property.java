@@ -12,6 +12,19 @@ public class Property {
     private double area;
     private String nameOfOwner;
 
+    /**
+     * Constructor for Property class, takes in all the variables, and sets them. This class uses composition.
+     * @param municipalityNumber positive int number.
+     *                           part 1 of propertyNumber
+     * @param municipalityName String for name of municipality.
+     * @param lotNumber  number for the lot of the property. Multiple properties can share this number
+     *                   part 2 of propertyNumber
+     * @param sectionNumber number for the section of property. Can not be shared by other properties with same municipality number and lot number
+     *                      part 3 of propertyNumber
+     * @param lotName Name of lot, can be blank
+     * @param area Area of the property type: double
+     * @param nameOfOwner Name of the owner off property
+     */
     public Property(int municipalityNumber, String municipalityName, int lotNumber, int sectionNumber, String lotName, double area, String nameOfOwner){
         this.municipalityNumber = municipalityNumber;
         this.municipalityName = municipalityName;
