@@ -125,7 +125,7 @@ public class Client {
      * Method for printing out all properties in the list, not given any parameters.
      */
     public void printAll(){
-        printProperties(reg.properties);
+        printProperties(reg.getProperties());
     }
 
     /**
